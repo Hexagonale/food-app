@@ -290,7 +290,7 @@ class _SignUpAccountPageState extends State<_SignUpAccountPage> with TickerProvi
   bool _validateEmail() => isEmail(email);
   bool _validateLogin() => login.length >= 6;
   bool _validatePass() => pass.length >= 6;
-  double _emailPosition() => (emailKey.currentContext.findRenderObject() as RenderBox).localToGlobal(Offset(0, _scrollController.offset - 400)).dy;
+//  double _emailPosition() => (emailKey.currentContext.findRenderObject() as RenderBox).localToGlobal(Offset(0, _scrollController.offset - 400)).dy;
   double _loginPosition() => (loginKey.currentContext.findRenderObject() as RenderBox).localToGlobal(Offset(0, _scrollController.offset - 400)).dy;
   double _passPosition() => (passKey.currentContext.findRenderObject() as RenderBox).localToGlobal(Offset(0, _scrollController.offset - 400)).dy;
 
@@ -423,7 +423,7 @@ class _SignUpPhonePageState extends State<_SignUpPhonePage> with TickerProviderS
 
   bool _validateCode() => !(code.isEmpty || number.length < 2);
   bool _validateNumber() => !(number.isEmpty || number.length < 9);
-  double _codePosition() => (codeKey.currentContext.findRenderObject() as RenderBox).localToGlobal(Offset(0, _scrollController.offset - 400)).dy;
+//  double _codePosition() => (codeKey.currentContext.findRenderObject() as RenderBox).localToGlobal(Offset(0, _scrollController.offset - 400)).dy;
   double _numberPosition() => (numberKey.currentContext.findRenderObject() as RenderBox).localToGlobal(Offset(0, _scrollController.offset - 400)).dy;
 
   @override

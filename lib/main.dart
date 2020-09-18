@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'views/home.dart';
-import 'views/welcome.dart';
+//import 'views/home.dart';
+//import 'views/welcome.dart';
 import 'views/splash.dart';
 
 // https://www.behance.net/gallery/81589609/Food-App

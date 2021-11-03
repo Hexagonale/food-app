@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'screens/splash/splash.dart';
+// import 'screens/splash/splash.dart';
+import 'screens/welcome/welcome.dart';
 
 // https://www.behance.net/gallery/81589609/Food-App
 void main() {
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
 //      visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const Splash(),
+      // home: const Splash(),
+      home: const Welcome(),
     );
   }
 }

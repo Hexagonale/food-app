@@ -43,7 +43,6 @@ class _WelcomeState extends State<Welcome> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
         child: Column(

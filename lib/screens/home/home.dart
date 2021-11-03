@@ -39,17 +39,26 @@ class _HomePage extends StatefulWidget {
 class _HomePageState extends State<_HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const <Widget>[
-        Text(
-          'Hello again,',
-          style: TextStyle(),
-        ),
-        Text(
-          'Pathumzoo',
-          style: TextStyle(),
-        ),
-      ],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const <Widget>[
+          Text(
+            'Demo ends here for now',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 28.0,
+            ),
+          ),
+          Text(
+            'More is coming tho',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 12.0,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -81,7 +90,7 @@ class _BottomNavigationState extends State<_BottomNavigation> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
+        children: <Widget>[
           GestureDetector(
             onTap: () => _select(0),
             child: SvgPicture.asset(

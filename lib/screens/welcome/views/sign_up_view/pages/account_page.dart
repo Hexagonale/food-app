@@ -70,6 +70,7 @@ class _AccountPageState extends State<AccountPage> with TickerProviderStateMixin
                   validator: _validateEmail,
                   label: 'Email',
                   textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.emailAddress,
                   onEditingComplete: () {
                     _emailFocusNode.unfocus();
                     FocusScope.of(context).requestFocus(_loginFocusNode);
@@ -101,6 +102,7 @@ class _AccountPageState extends State<AccountPage> with TickerProviderStateMixin
                   label: 'Password',
                   obscure: true,
                   textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.visiblePassword,
                   onEditingComplete: _passwordFocusNode.unfocus,
                 ),
               ),

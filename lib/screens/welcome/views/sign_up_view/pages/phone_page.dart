@@ -54,6 +54,7 @@ class _PhonePageState extends State<PhonePage> with TickerProviderStateMixin {
               validator: _validateCode,
               label: 'Country Code',
               textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.number,
               onEditingComplete: () {
                 _codeFocusNode.unfocus();
                 FocusScope.of(context).requestFocus(_numberFocusNode);
@@ -66,6 +67,7 @@ class _PhonePageState extends State<PhonePage> with TickerProviderStateMixin {
               validator: _validateNumber,
               label: 'Mobile Number',
               textInputAction: TextInputAction.done,
+              keyboardType: TextInputType.phone,
               onEditingComplete: _numberFocusNode.unfocus,
             ),
             const SizedBox(height: 16.0),

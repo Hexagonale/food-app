@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MyTextFormField extends FormField<String> {
@@ -9,6 +10,7 @@ class MyTextFormField extends FormField<String> {
     TextEditingController? controller,
     FocusNode? focusNode,
     TextInputAction? textInputAction,
+    TextInputType? keyboardType,
     bool obscure = false,
     required String label,
     required Function() onEditingComplete,
@@ -20,6 +22,7 @@ class MyTextFormField extends FormField<String> {
             controller: controller,
             focusNode: focusNode,
             textInputAction: textInputAction,
+            keyboardType: keyboardType,
             obscure: obscure,
             label: label,
             onEditingComplete: onEditingComplete,
@@ -35,6 +38,7 @@ class _MyTextFormField extends StatefulWidget {
     required this.controller,
     required this.focusNode,
     required this.textInputAction,
+    required this.keyboardType,
     required this.obscure,
     required this.label,
     required this.onEditingComplete,
@@ -44,6 +48,7 @@ class _MyTextFormField extends StatefulWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
+  final TextInputType? keyboardType;
   final bool obscure;
   final String label;
   final Function() onEditingComplete;
@@ -160,11 +165,12 @@ class __MyTextFormFieldState extends State<_MyTextFormField> with TickerProvider
             contentPadding: const EdgeInsets.only(left: 16.0, top: 12.0, bottom: 12.0),
             suffixIcon: _icon,
           ),
-          textInputAction: widget.textInputAction,
           style: const TextStyle(
             fontSize: 12.0,
             color: Color(0xff1a1a1a),
           ),
+          textInputAction: widget.textInputAction,
+          keyboardType: widget.keyboardType,
           obscureText: widget.obscure,
           onChanged: widget.state.didChange,
           onEditingComplete: widget.onEditingComplete,

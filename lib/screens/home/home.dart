@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
+  static Route<Widget> getRoute() {
+    return MaterialPageRoute<Widget>(
+      builder: (BuildContext context) => const Home(),
+    );
+  }
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -15,7 +23,7 @@ class _HomeState extends State<Home> {
         onSelect: (int i) {},
       ),
       body: Stack(
-        children: [
+        children: <Widget>[
           _HomePage(),
         ],
       ),
@@ -32,7 +40,7 @@ class _HomePageState extends State<_HomePage> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: const <Widget>[
         Text(
           'Hello again,',
           style: TextStyle(),
@@ -64,9 +72,13 @@ class _BottomNavigationState extends State<_BottomNavigation> {
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(38), topRight: Radius.circular(38))),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(38),
+          topRight: Radius.circular(38),
+        ),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -74,14 +86,14 @@ class _BottomNavigationState extends State<_BottomNavigation> {
             onTap: () => _select(0),
             child: SvgPicture.asset(
               'assets/img/home.svg',
-              color: selected == 0 ? Theme.of(context).primaryColor : Color(0xff999999),
+              color: selected == 0 ? Theme.of(context).primaryColor : const Color(0xff999999),
             ),
           ),
           GestureDetector(
             onTap: () => _select(1),
             child: SvgPicture.asset(
               'assets/img/search.svg',
-              color: selected == 1 ? Theme.of(context).primaryColor : Color(0xff999999),
+              color: selected == 1 ? Theme.of(context).primaryColor : const Color(0xff999999),
             ),
           ),
           GestureDetector(
@@ -93,10 +105,10 @@ class _BottomNavigationState extends State<_BottomNavigation> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Theme.of(context).primaryColor,
-                boxShadow: [
+                boxShadow: <BoxShadow>[
                   BoxShadow(
                     color: Theme.of(context).primaryColor.withOpacity(0.2),
-                    offset: Offset(1, 7),
+                    offset: const Offset(1, 7),
                     blurRadius: 5,
                   )
                 ],
@@ -108,14 +120,14 @@ class _BottomNavigationState extends State<_BottomNavigation> {
             onTap: () => _select(2),
             child: SvgPicture.asset(
               'assets/img/cart.svg',
-              color: selected == 2 ? Theme.of(context).primaryColor : Color(0xff999999),
+              color: selected == 2 ? Theme.of(context).primaryColor : const Color(0xff999999),
             ),
           ),
           GestureDetector(
             onTap: () => _select(3),
             child: SvgPicture.asset(
               'assets/img/user.svg',
-              color: selected == 3 ? Theme.of(context).primaryColor : Color(0xff999999),
+              color: selected == 3 ? Theme.of(context).primaryColor : const Color(0xff999999),
             ),
           )
         ],

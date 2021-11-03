@@ -1,12 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:foodapp/my_icons.dart';
+import 'package:foodapp/screens/home/home.dart';
 import 'package:foodapp/widgets/_widgets.dart';
 
 import '../widgets/_widgets.dart';
-
-// Login
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -15,12 +13,17 @@ class LoginView extends StatefulWidget {
   _LoginViewState createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> with TickerProviderStateMixin, WidgetsBindingObserver {
+class _LoginViewState extends State<LoginView> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<LoginView> {
   final GlobalKey<FormState> formKey = GlobalKey();
   final TextEditingController _loginController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _loginFocusNode = FocusNode();
   final FocusNode _passFocusNode = FocusNode();
+
+  bool _wantKeepAlive = true;
+
+  @override
+  bool get wantKeepAlive => _wantKeepAlive;
 
   @override
   void dispose() {
@@ -29,11 +32,15 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin, Wi
     _loginFocusNode.dispose();
     _passFocusNode.dispose();
 
+    _wantKeepAlive = false;
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return MyScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -74,7 +81,7 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin, Wi
                 index: 2,
                 child: MyTextFormField(
                   controller: _passwordController,
-                  validator: _validatePass,
+                  validator: _validatePassword,
                   focusNode: _passFocusNode,
                   obscure: true,
                   label: 'Password',
@@ -101,29 +108,16 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin, Wi
               const SizedBox(height: 35.0),
               SlideIn(
                 index: 5,
-                child: _buildSocialButtons(),
+                child: SocialButtonRow(
+                  onFacebookPressed: () {},
+                  onGooglePressed: () {},
+                ),
               ),
               const SizedBox(height: 15.0),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildSocialButtons() {
-    return Row(
-      children: <Widget>[
-        MyIconButton(
-          icon: MyIcons.facebook,
-          onPressed: () {},
-        ),
-        const SizedBox(width: 25.0),
-        MyIconButton(
-          icon: MyIcons.google,
-          onPressed: () {},
-        )
-      ],
     );
   }
 
@@ -143,7 +137,7 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin, Wi
     return null;
   }
 
-  String? _validatePass(String? password) {
+  String? _validatePassword(String? password) {
     if (password == null) {
       return 'Password cannot be empty.';
     }
@@ -165,6 +159,6 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin, Wi
       return;
     }
 
-    // TODO: Redirect.
+    Navigator.pushReplacement(context, Home.getRoute());
   }
 }

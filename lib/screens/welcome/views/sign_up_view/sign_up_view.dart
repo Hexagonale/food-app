@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/screens/home/home.dart';
 
 import 'pages/_pages.dart';
 
@@ -44,7 +45,9 @@ class _SignUpState extends State<SignUpView> with AutomaticKeepAliveClientMixin<
         PhonePage(
           onSubmit: _goToNextPage,
         ),
-        const VerificationPage(),
+        VerificationPage(
+          onSubmit: () => _onFinished(context),
+        ),
       ],
       controller: _controller,
       physics: const NeverScrollableScrollPhysics(),
@@ -56,5 +59,9 @@ class _SignUpState extends State<SignUpView> with AutomaticKeepAliveClientMixin<
       duration: const Duration(milliseconds: 450),
       curve: Curves.easeInOutCubic,
     );
+  }
+
+  void _onFinished(BuildContext context) {
+    Navigator.pushReplacement(context, Home.getRoute());
   }
 }

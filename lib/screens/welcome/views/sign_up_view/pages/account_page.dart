@@ -1,64 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/my_icons.dart';
+import 'package:foodapp/screens/welcome/widgets/_widgets.dart';
 import 'package:foodapp/utils.dart';
 import 'package:foodapp/widgets/_widgets.dart';
 
-import '../widgets/_widgets.dart';
-
-class SignUpView extends StatefulWidget {
-  const SignUpView({Key? key}) : super(key: key);
-
-  @override
-  _SignUpState createState() => _SignUpState();
-}
-
-class _SignUpState extends State<SignUpView> with AutomaticKeepAliveClientMixin<SignUpView> {
-  final PageController _controller = PageController();
-
-  bool _wantKeepAlive = true;
-
-  @override
-  bool get wantKeepAlive => _wantKeepAlive;
-
-  @override
-  void dispose() {
-    _controller.dispose();
-
-    _wantKeepAlive = false;
-
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-
-    return PageView(
-      children: <Widget>[
-        _SignUpAccountPage(
-          onSubmit: _goToNextPage,
-          onLogin: () {},
-        ),
-        _SignUpPhonePage(
-          onSubmit: _goToNextPage,
-        ),
-        _SignUpPhoneVerificationPage()
-      ],
-      controller: _controller,
-      physics: const NeverScrollableScrollPhysics(),
-    );
-  }
-
-  void _goToNextPage() {
-    _controller.nextPage(
-      duration: const Duration(milliseconds: 450),
-      curve: Curves.easeInOutCubic,
-    );
-  }
-}
-
-class _SignUpAccountPage extends StatefulWidget {
-  const _SignUpAccountPage({
+class AccountPage extends StatefulWidget {
+  const AccountPage({
     Key? key,
     required this.onSubmit,
     required this.onLogin,
@@ -68,10 +15,10 @@ class _SignUpAccountPage extends StatefulWidget {
   final Function() onLogin;
 
   @override
-  _SignUpAccountPageState createState() => _SignUpAccountPageState();
+  _AccountPageState createState() => _AccountPageState();
 }
 
-class _SignUpAccountPageState extends State<_SignUpAccountPage> with TickerProviderStateMixin {
+class _AccountPageState extends State<AccountPage> with TickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _loginController = TextEditingController();
@@ -252,141 +199,5 @@ class _SignUpAccountPageState extends State<_SignUpAccountPage> with TickerProvi
     }
 
     widget.onSubmit();
-  }
-}
-
-class _SignUpPhonePage extends StatefulWidget {
-  const _SignUpPhonePage({
-    required this.onSubmit,
-  });
-
-  final Function() onSubmit;
-
-  @override
-  _SignUpPhonePageState createState() => _SignUpPhonePageState();
-}
-
-class _SignUpPhonePageState extends State<_SignUpPhonePage> with TickerProviderStateMixin {
-  final GlobalKey<FormState> _formKey = GlobalKey();
-  final TextEditingController _codeController = TextEditingController();
-  final TextEditingController _numberController = TextEditingController();
-  final FocusNode _codeFocusNode = FocusNode();
-  final FocusNode _numberFocusNode = FocusNode();
-
-  @override
-  void dispose() {
-    _codeController.dispose();
-    _numberController.dispose();
-    _codeFocusNode.dispose();
-    _numberFocusNode.dispose();
-
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MyScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            const SizedBox(height: 61.0),
-            const Text(
-              'Enter your mobile\nnumber',
-              style: TextStyle(
-                fontSize: 21,
-                fontWeight: FontWeight.w500,
-                color: Color(0xff1a1a1a),
-              ),
-            ),
-            const SizedBox(height: 27.0),
-            MyTextFormField(
-              controller: _codeController,
-              focusNode: _codeFocusNode,
-              validator: _validateCode,
-              label: 'Country Code',
-              textInputAction: TextInputAction.next,
-              onEditingComplete: () {
-                _codeFocusNode.unfocus();
-                FocusScope.of(context).requestFocus(_numberFocusNode);
-              },
-            ),
-            const SizedBox(height: 12.0),
-            MyTextFormField(
-              controller: _numberController,
-              focusNode: _numberFocusNode,
-              validator: _validateNumber,
-              label: 'Mobile Number',
-              textInputAction: TextInputAction.done,
-              onEditingComplete: _numberFocusNode.unfocus,
-            ),
-            const SizedBox(height: 16.0),
-            MyButton(
-              text: 'Continue',
-              onPressed: _submit,
-            ),
-            const SizedBox(height: 35.0),
-            SocialButtonRow(
-              onFacebookPressed: () {},
-              onGooglePressed: () {},
-            ),
-            const SizedBox(height: 15.0)
-          ],
-        ),
-      ),
-    );
-  }
-
-  String? _validateNumber(String? number) {
-    if (number == null) {
-      return 'Number cannot be empty.';
-    }
-
-    if (number.isEmpty) {
-      return 'Number cannot be empty.';
-    }
-
-    if (number.trim().length < 9) {
-      return 'Number has t have 9 letters.';
-    }
-
-    return null;
-  }
-
-  String? _validateCode(String? code) {
-    if (code == null) {
-      return 'Country code cannot be empty.';
-    }
-
-    if (code.isEmpty) {
-      return 'Country code cannot be empty.';
-    }
-
-    if (code.length < 2) {
-      return 'Country must be at least 2 digits.';
-    }
-
-    return null;
-  }
-
-  void _submit() async {
-    if (_formKey.currentState?.validate() != true) {
-      return;
-    }
-
-    widget.onSubmit();
-  }
-}
-
-class _SignUpPhoneVerificationPage extends StatefulWidget {
-  @override
-  _SignUpPhoneVerificationPageState createState() => _SignUpPhoneVerificationPageState();
-}
-
-class _SignUpPhoneVerificationPageState extends State<_SignUpPhoneVerificationPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }

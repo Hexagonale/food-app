@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:foodapp/screens/welcome/views/sign_up_view.dart';
 
 import 'widgets/_widgets.dart';
 import 'views/_views.dart';
@@ -106,10 +105,16 @@ class _WelcomeState extends State<Welcome> with SingleTickerProviderStateMixin {
   Widget _buildContent() {
     return TabBarView(
       controller: _controller,
-      children: const <Widget>[
-        LoginView(),
-        SignUpView(),
+      children: <Widget>[
+        const LoginView(),
+        SignUpView(
+          onLoginTapped: _onLoginTapped,
+        ),
       ],
     );
+  }
+
+  void _onLoginTapped() {
+    _controller.animateTo(0);
   }
 }

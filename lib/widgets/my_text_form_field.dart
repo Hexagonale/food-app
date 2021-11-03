@@ -6,23 +6,23 @@ import 'package:flutter_svg/svg.dart';
 class MyTextFormField extends FormField<String> {
   MyTextFormField({
     Key? key,
-    required String label,
-    required TextEditingController controller,
-    required String? Function(String? value) validator,
-    required Function() onEditingComplete,
+    TextEditingController? controller,
     FocusNode? focusNode,
     TextInputAction? textInputAction,
     bool obscure = false,
+    required String label,
+    required Function() onEditingComplete,
+    required String? Function(String? value) validator,
   }) : super(
           key: key,
           builder: (FormFieldState<String> state) => _MyTextFormField(
             state: state,
             controller: controller,
-            label: label,
-            onEditingComplete: onEditingComplete,
             focusNode: focusNode,
             textInputAction: textInputAction,
             obscure: obscure,
+            label: label,
+            onEditingComplete: onEditingComplete,
           ),
           validator: validator,
         );
@@ -33,20 +33,20 @@ class _MyTextFormField extends StatefulWidget {
     Key? key,
     required this.state,
     required this.controller,
-    required this.onEditingComplete,
     required this.focusNode,
     required this.textInputAction,
-    required this.label,
     required this.obscure,
+    required this.label,
+    required this.onEditingComplete,
   }) : super(key: key);
 
   final FormFieldState<String> state;
-  final TextEditingController controller;
-  final Function() onEditingComplete;
+  final TextEditingController? controller;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
   final bool obscure;
   final String label;
+  final Function() onEditingComplete;
 
   @override
   __MyTextFormFieldState createState() => __MyTextFormFieldState();
@@ -75,6 +75,7 @@ class __MyTextFormFieldState extends State<_MyTextFormField> with TickerProvider
   );
 
   final FocusNode _fallbackFocusNode = FocusNode();
+  final TextEditingController _fallbackController = TextEditingController();
 
   String? lastError;
 
@@ -92,12 +93,18 @@ class __MyTextFormFieldState extends State<_MyTextFormField> with TickerProvider
     _shakeController.dispose();
     _labelController.dispose();
     _fallbackFocusNode.dispose();
+    _fallbackController.dispose();
 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final Animation<Offset> shakeOffsetTween = Tween<Offset>(
+      begin: const Offset(-2, 0.0),
+      end: const Offset(2, 0.0),
+    ).animate(_shakeAnimation);
+
     if (lastError != widget.state.errorText) {
       _errorChanged(
         lastError: lastError,
@@ -107,71 +114,61 @@ class __MyTextFormFieldState extends State<_MyTextFormField> with TickerProvider
       lastError = widget.state.errorText;
     }
 
-    return SizedBox(
-      height: labelHeight + fieldHeight,
-      child: Stack(
-        children: <Widget>[
-          _buildAnimatedTextField(),
-          _buildLabel(),
-        ],
+    return AnimatedBuilder(
+      animation: shakeOffsetTween,
+      child: SizedBox(
+        height: labelHeight + fieldHeight,
+        child: Stack(
+          children: <Widget>[
+            _buildTextField(),
+            _buildLabel(),
+          ],
+        ),
       ),
-    );
-  }
-
-  Widget _buildAnimatedTextField() {
-    final Animation<Offset> shakeOffset = Tween<Offset>(
-      begin: const Offset(-2, 0.0),
-      end: const Offset(2, 0.0),
-    ).animate(_shakeAnimation);
-
-    return Positioned.fill(
-      top: labelHeight,
-      child: AnimatedBuilder(
-        animation: shakeOffset,
-        child: _buildTextField(),
-        builder: (BuildContext c, Widget? child) {
-          return Transform.translate(
-            offset: shakeOffset.value,
-            child: child,
-          );
-        },
-      ),
+      builder: (BuildContext c, Widget? child) {
+        return Transform.translate(
+          offset: shakeOffsetTween.value,
+          child: child,
+        );
+      },
     );
   }
 
   Widget _buildTextField() {
-    return Container(
-      height: fieldHeight,
-      decoration: BoxDecoration(
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.black.withOpacity(0.12),
-            offset: const Offset(1.0, 7.0),
-            blurRadius: 10.0,
-            spreadRadius: -6.0,
-          )
-        ],
-      ),
-      child: TextField(
-        controller: widget.controller,
-        focusNode: _focusNode,
-        decoration: InputDecoration(
-          border: _border,
-          enabledBorder: _border,
-          focusedBorder: _border,
-          filled: true,
-          fillColor: Colors.white,
-          contentPadding: const EdgeInsets.only(left: 16.0, top: 12.0, bottom: 12.0),
-          suffixIcon: _icon,
+    return Positioned.fill(
+      top: labelHeight,
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.black.withOpacity(0.12),
+              offset: const Offset(1.0, 7.0),
+              blurRadius: 10.0,
+              spreadRadius: -6.0,
+            )
+          ],
         ),
-        textInputAction: widget.textInputAction,
-        style: const TextStyle(
-          fontSize: 12.0,
-          color: Color(0xff1a1a1a),
+        child: TextField(
+          controller: _controller,
+          focusNode: _focusNode,
+          decoration: InputDecoration(
+            border: _border,
+            enabledBorder: _border,
+            focusedBorder: _border,
+            filled: true,
+            fillColor: Colors.white,
+            contentPadding: const EdgeInsets.only(left: 16.0, top: 12.0, bottom: 12.0),
+            suffixIcon: _icon,
+          ),
+          textInputAction: widget.textInputAction,
+          style: const TextStyle(
+            fontSize: 12.0,
+            color: Color(0xff1a1a1a),
+          ),
+          obscureText: widget.obscure,
+          onChanged: widget.state.didChange,
+          onEditingComplete: widget.onEditingComplete,
         ),
-        obscureText: widget.obscure,
-        onChanged: widget.state.didChange,
-        onEditingComplete: widget.onEditingComplete,
       ),
     );
   }
@@ -223,7 +220,7 @@ class __MyTextFormFieldState extends State<_MyTextFormField> with TickerProvider
   }
 
   void _focusChanged() {
-    if (widget.controller.text.isNotEmpty) {
+    if (_controller.text.isNotEmpty) {
       // Do not move label back in field when there's text.
       return;
     }
@@ -246,6 +243,10 @@ class __MyTextFormFieldState extends State<_MyTextFormField> with TickerProvider
     }
 
     _shake();
+  }
+
+  TextEditingController get _controller {
+    return widget.controller ?? _fallbackController;
   }
 
   FocusNode get _focusNode {

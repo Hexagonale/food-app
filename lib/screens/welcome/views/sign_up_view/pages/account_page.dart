@@ -23,18 +23,12 @@ class _AccountPageState extends State<AccountPage> with TickerProviderStateMixin
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _loginController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final FocusNode _emailFocusNode = FocusNode();
-  final FocusNode _loginFocusNode = FocusNode();
-  final FocusNode _passwordFocusNode = FocusNode();
 
   @override
   void dispose() {
     _emailController.dispose();
     _loginController.dispose();
     _passwordController.dispose();
-    _emailFocusNode.dispose();
-    _loginFocusNode.dispose();
-    _passwordFocusNode.dispose();
 
     super.dispose();
   }
@@ -66,15 +60,11 @@ class _AccountPageState extends State<AccountPage> with TickerProviderStateMixin
                 index: 1,
                 child: MyTextFormField(
                   controller: _emailController,
-                  focusNode: _emailFocusNode,
                   validator: _validateEmail,
                   label: 'Email',
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.emailAddress,
-                  onEditingComplete: () {
-                    _emailFocusNode.unfocus();
-                    FocusScope.of(context).requestFocus(_loginFocusNode);
-                  },
+                  onEditingComplete: FocusScope.of(context).nextFocus,
                 ),
               ),
               const SizedBox(height: 12.0),
@@ -82,14 +72,10 @@ class _AccountPageState extends State<AccountPage> with TickerProviderStateMixin
                 index: 2,
                 child: MyTextFormField(
                   controller: _loginController,
-                  focusNode: _loginFocusNode,
                   validator: _validateLogin,
                   label: 'Username',
                   textInputAction: TextInputAction.next,
-                  onEditingComplete: () {
-                    _loginFocusNode.unfocus();
-                    FocusScope.of(context).requestFocus(_passwordFocusNode);
-                  },
+                  onEditingComplete: FocusScope.of(context).nextFocus,
                 ),
               ),
               const SizedBox(height: 12.0),
@@ -97,13 +83,12 @@ class _AccountPageState extends State<AccountPage> with TickerProviderStateMixin
                 index: 3,
                 child: MyTextFormField(
                   controller: _passwordController,
-                  focusNode: _passwordFocusNode,
                   validator: _validatePassword,
                   label: 'Password',
                   obscure: true,
                   textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.visiblePassword,
-                  onEditingComplete: _passwordFocusNode.unfocus,
+                  onEditingComplete: FocusScope.of(context).unfocus,
                 ),
               ),
               const SizedBox(height: 16.0),

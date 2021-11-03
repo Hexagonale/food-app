@@ -17,8 +17,6 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin, Au
   final GlobalKey<FormState> formKey = GlobalKey();
   final TextEditingController _loginController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final FocusNode _loginFocusNode = FocusNode();
-  final FocusNode _passFocusNode = FocusNode();
 
   bool _wantKeepAlive = true;
 
@@ -29,8 +27,6 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin, Au
   void dispose() {
     _loginController.dispose();
     _passwordController.dispose();
-    _loginFocusNode.dispose();
-    _passFocusNode.dispose();
 
     _wantKeepAlive = false;
 
@@ -67,13 +63,9 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin, Au
                 child: MyTextFormField(
                   controller: _loginController,
                   validator: _validateLogin,
-                  focusNode: _loginFocusNode,
                   label: 'Username',
                   textInputAction: TextInputAction.next,
-                  onEditingComplete: () {
-                    _loginFocusNode.unfocus();
-                    FocusScope.of(context).requestFocus(_passFocusNode);
-                  },
+                  onEditingComplete: FocusScope.of(context).nextFocus,
                 ),
               ),
               const SizedBox(height: 12.0),
@@ -82,11 +74,10 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin, Au
                 child: MyTextFormField(
                   controller: _passwordController,
                   validator: _validatePassword,
-                  focusNode: _passFocusNode,
                   obscure: true,
                   label: 'Password',
                   textInputAction: TextInputAction.done,
-                  onEditingComplete: _passFocusNode.unfocus,
+                  onEditingComplete: FocusScope.of(context).unfocus,
                 ),
               ),
               const SizedBox(height: 16.0),

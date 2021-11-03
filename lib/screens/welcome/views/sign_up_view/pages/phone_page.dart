@@ -17,15 +17,11 @@ class _PhonePageState extends State<PhonePage> with TickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _codeController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
-  final FocusNode _codeFocusNode = FocusNode();
-  final FocusNode _numberFocusNode = FocusNode();
 
   @override
   void dispose() {
     _codeController.dispose();
     _numberController.dispose();
-    _codeFocusNode.dispose();
-    _numberFocusNode.dispose();
 
     super.dispose();
   }
@@ -52,25 +48,20 @@ class _PhonePageState extends State<PhonePage> with TickerProviderStateMixin {
               const SizedBox(height: 27.0),
               MyTextFormField(
                 controller: _codeController,
-                focusNode: _codeFocusNode,
                 validator: _validateCode,
                 label: 'Country Code',
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
-                onEditingComplete: () {
-                  _codeFocusNode.unfocus();
-                  FocusScope.of(context).requestFocus(_numberFocusNode);
-                },
+                onEditingComplete: FocusScope.of(context).nextFocus,
               ),
               const SizedBox(height: 12.0),
               MyTextFormField(
                 controller: _numberController,
-                focusNode: _numberFocusNode,
                 validator: _validateNumber,
                 label: 'Mobile Number',
                 textInputAction: TextInputAction.done,
                 keyboardType: TextInputType.phone,
-                onEditingComplete: _numberFocusNode.unfocus,
+                onEditingComplete: FocusScope.of(context).unfocus,
               ),
               const SizedBox(height: 16.0),
               MyButton(

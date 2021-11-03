@@ -90,8 +90,8 @@ class _WelcomeState extends State<Welcome> with SingleTickerProviderStateMixin {
           labelColor: Colors.black,
           unselectedLabelColor: const Color(0xffb3b3b3),
           labelStyle: const TextStyle(
+            fontSize: 14.0,
             fontWeight: FontWeight.w500,
-            fontSize: 14,
           ),
           tabs: const <Widget>[
             Text('Login'),

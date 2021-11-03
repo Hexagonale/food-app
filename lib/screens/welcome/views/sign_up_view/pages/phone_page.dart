@@ -35,48 +35,51 @@ class _PhonePageState extends State<PhonePage> with TickerProviderStateMixin {
     return MyScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            const SizedBox(height: 61.0),
-            const Text(
-              'Enter your mobile number',
-              style: TextStyle(
-                fontSize: 21.0,
-                fontWeight: FontWeight.w500,
-                color: Color(0xff1a1a1a),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              const SizedBox(height: 61.0),
+              const Text(
+                'Enter your mobile number',
+                style: TextStyle(
+                  fontSize: 21.0,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff1a1a1a),
+                ),
               ),
-            ),
-            const SizedBox(height: 27.0),
-            MyTextFormField(
-              controller: _codeController,
-              focusNode: _codeFocusNode,
-              validator: _validateCode,
-              label: 'Country Code',
-              textInputAction: TextInputAction.next,
-              keyboardType: TextInputType.number,
-              onEditingComplete: () {
-                _codeFocusNode.unfocus();
-                FocusScope.of(context).requestFocus(_numberFocusNode);
-              },
-            ),
-            const SizedBox(height: 12.0),
-            MyTextFormField(
-              controller: _numberController,
-              focusNode: _numberFocusNode,
-              validator: _validateNumber,
-              label: 'Mobile Number',
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.phone,
-              onEditingComplete: _numberFocusNode.unfocus,
-            ),
-            const SizedBox(height: 16.0),
-            MyButton(
-              text: 'Continue',
-              onPressed: _submit,
-            ),
-            const SizedBox(height: 15.0)
-          ],
+              const SizedBox(height: 27.0),
+              MyTextFormField(
+                controller: _codeController,
+                focusNode: _codeFocusNode,
+                validator: _validateCode,
+                label: 'Country Code',
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.number,
+                onEditingComplete: () {
+                  _codeFocusNode.unfocus();
+                  FocusScope.of(context).requestFocus(_numberFocusNode);
+                },
+              ),
+              const SizedBox(height: 12.0),
+              MyTextFormField(
+                controller: _numberController,
+                focusNode: _numberFocusNode,
+                validator: _validateNumber,
+                label: 'Mobile Number',
+                textInputAction: TextInputAction.done,
+                keyboardType: TextInputType.phone,
+                onEditingComplete: _numberFocusNode.unfocus,
+              ),
+              const SizedBox(height: 16.0),
+              MyButton(
+                text: 'Continue',
+                onPressed: _submit,
+              ),
+              const SizedBox(height: 15.0)
+            ],
+          ),
         ),
       ),
     );
@@ -92,7 +95,7 @@ class _PhonePageState extends State<PhonePage> with TickerProviderStateMixin {
     }
 
     if (number.trim().length < 9) {
-      return 'Number has t have 9 letters.';
+      return 'Number has to have 9 digits.';
     }
 
     return null;

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:foodapp/my_icons.dart';
 import 'package:foodapp/widgets/_widgets.dart';
 
-class SocialButtonRow extends StatelessWidget {
-  const SocialButtonRow({
+class SocialButtonsRow extends StatelessWidget {
+  const SocialButtonsRow({
     Key? key,
     required this.onFacebookPressed,
     required this.onGooglePressed,

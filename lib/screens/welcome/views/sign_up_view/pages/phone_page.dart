@@ -66,7 +66,7 @@ class _PhonePageState extends State<PhonePage> with TickerProviderStateMixin {
               const SizedBox(height: 16.0),
               MyButton(
                 text: 'Continue',
-                onPressed: _submit,
+                onPressed: () => _submit(context),
               ),
               const SizedBox(height: 15.0)
             ],
@@ -108,7 +108,9 @@ class _PhonePageState extends State<PhonePage> with TickerProviderStateMixin {
     return null;
   }
 
-  void _submit() async {
+  void _submit(BuildContext context) async {
+    FocusScope.of(context).unfocus();
+
     if (_formKey.currentState?.validate() != true) {
       return;
     }

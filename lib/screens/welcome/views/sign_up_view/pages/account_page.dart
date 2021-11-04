@@ -95,7 +95,7 @@ class _AccountPageState extends State<AccountPage> with TickerProviderStateMixin
               SlideIn(
                 index: 4,
                 child: MyButton(
-                  onPressed: _signUp,
+                  onPressed: () => _signUp(context),
                   text: 'Sign Up',
                 ),
               ),
@@ -110,18 +110,9 @@ class _AccountPageState extends State<AccountPage> with TickerProviderStateMixin
               const SizedBox(height: 35.0),
               SlideIn(
                 index: 6,
-                child: Row(
-                  children: <Widget>[
-                    MyIconButton(
-                      icon: MyIcons.facebook,
-                      onPressed: () {},
-                    ),
-                    const SizedBox(width: 25.0),
-                    MyIconButton(
-                      icon: MyIcons.google,
-                      onPressed: () {},
-                    )
-                  ],
+                child: SocialButtonsRow(
+                  onFacebookPressed: () {},
+                  onGooglePressed: () {},
                 ),
               ),
               const SizedBox(height: 15.0)
@@ -180,7 +171,9 @@ class _AccountPageState extends State<AccountPage> with TickerProviderStateMixin
     return null;
   }
 
-  void _signUp() async {
+  void _signUp(BuildContext context) async {
+    FocusScope.of(context).unfocus();
+
     if (_formKey.currentState?.validate() != true) {
       return;
     }

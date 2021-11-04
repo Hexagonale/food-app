@@ -72,6 +72,9 @@ class _CodeInputState extends State<CodeInput> {
       text = widget.controller.text.characters.elementAt(index);
     }
 
+    // Field should be highlighted as active only when keyboard is shown and it's currently edited.
+    final bool active = _focusNode.hasFocus && widget.controller.text.length == index;
+
     return IgnorePointer(
       child: Container(
         width: 52.0,
@@ -79,6 +82,9 @@ class _CodeInputState extends State<CodeInput> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10.0),
+          border: Border.all(
+            color: active ? Colors.black.withOpacity(0.3) : Colors.transparent,
+          ),
           boxShadow: <BoxShadow>[
             BoxShadow(
               color: Colors.black.withOpacity(0.12),

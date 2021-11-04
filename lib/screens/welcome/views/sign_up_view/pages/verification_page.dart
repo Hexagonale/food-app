@@ -73,7 +73,9 @@ class _VerificationPageState extends State<VerificationPage> {
     );
   }
 
-  void _submit(BuildContext context) async {
+  void _submit(BuildContext context) {
+    FocusScope.of(context).unfocus();
+
     final String code = _codeController.text;
     if (code.trim().length < 4 || int.tryParse(code) == null) {
       return;

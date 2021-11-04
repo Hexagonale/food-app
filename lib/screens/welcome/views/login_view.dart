@@ -85,7 +85,7 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin, Au
                 index: 3,
                 child: MyButton(
                   text: 'Login',
-                  onPressed: _submit,
+                  onPressed: () => _submit(context),
                 ),
               ),
               const SizedBox(height: 14.0),
@@ -99,7 +99,7 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin, Au
               const SizedBox(height: 35.0),
               SlideIn(
                 index: 5,
-                child: SocialButtonRow(
+                child: SocialButtonsRow(
                   onFacebookPressed: () {},
                   onGooglePressed: () {},
                 ),
@@ -144,7 +144,9 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin, Au
     return null;
   }
 
-  void _submit() {
+  void _submit(BuildContext context) {
+    FocusScope.of(context).unfocus();
+
     if (formKey.currentState?.validate() != true) {
       // There are errors in the form.
       return;
